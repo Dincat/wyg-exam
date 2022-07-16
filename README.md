@@ -161,3 +161,15 @@ com.wyg
 ## 无忧果考试平台交流群
 
 QQ群：<a href="https://qm.qq.com/cgi-bin/qm/qr?k=b2NMgSJsEX7fAI2FJu6jjCTqzU707UZl&jump_from=webapi"><img src="https://img.shields.io/badge/747860738-blue.svg" alt="无忧果考试平台" title="无忧果考试平台"></a> 点击按钮入群。
+
+
+##支付作者
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2022/0404/135849_2e646b55_1284634.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2022/0404/141709_8dca2974_1284634.jpeg"/></td>
+    </tr>
+</table>
+
+你可以请作者喝杯咖啡表示鼓励
