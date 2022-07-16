@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.ExaminationSubjectMapper">
+
+    <resultMap type="com.wyg.exam.domain.ExaminationSubject" id="ExaminationSubjectResult">
+        <result property="id"    column="id"    />
+        <result property="examinationId"    column="examination_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="subjectId"    column="subject_id"    />
+        <result property="type"    column="type"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+        <result property="subjectName"    column="subject_name"    />
+        <result property="score"    column="score"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="correctCount"    column="correct_count"    />
+        <result property="incorrectCount"    column="incorrect_count"    />
+        <result property="wordId"    column="word_id"    />
+    </resultMap>
+
+    <sql id="selectExaminationSubjectVo">
+        select id, examination_id, category_id, subject_id, type, application_code, tenant_code, subject_name, score, creator, create_date, modifier, modify_date, del_flag,correct_count,incorrect_count,word_id from exam_examination_subject
+    </sql>
+
+    <select id="selectExaminationSubjectList" parameterType="com.wyg.exam.domain.ExaminationSubject" resultMap="ExaminationSubjectResult">
+        <include refid="selectExaminationSubjectVo"/>
+        <where>
+            <if test="subjectName != null  and subjectName != ''"> and subject_name like concat('%', #{subjectName}, '%')</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="categoryId != null  and categoryId != ''"> and category_id = #{categoryId}</if>
+            <if test="examinationId != null  and examinationId != ''"> and examination_id = #{examinationId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            and del_flag = 0
+        </where>
+        <choose>
+            <when test="params.orderByColumn != null and params.isAsc!=null ">
+                order by ${params.orderByColumn} ${params.isAsc}
+            </when>
+            <otherwise>
+                order by subject_id desc
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="selectExaminationSubjectById" parameterType="Long" resultMap="ExaminationSubjectResult">
+            <include refid="selectExaminationSubjectVo"/>
+            where id = #{id}
+    </select>
+
+    <insert id="insertExaminationSubject" parameterType="com.wyg.exam.domain.ExaminationSubject">
+        insert into exam_examination_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="examinationId != null">examination_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="subjectId != null">subject_id,</if>
+            <if test="type != null">type,</if>
+            <if test="applicationCode != null">application_code,</if>
+            <if test="tenantCode != null">tenant_code,</if>
+            <if test="subjectName != null">subject_name,</if>
+            <if test="score != null">score,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="wordId != null">word_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="examinationId != null">#{examinationId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="subjectId != null">#{subjectId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="applicationCode != null">#{applicationCode},</if>
+            <if test="tenantCode != null">#{tenantCode},</if>
+            <if test="subjectName != null">#{subjectName},</if>
+            <if test="score != null">#{score},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="wordId != null">#{wordId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateExaminationSubject" parameterType="com.wyg.exam.domain.ExaminationSubject">
+        update exam_examination_subject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examinationId != null">examination_id = #{examinationId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="subjectId != null">subject_id = #{subjectId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="applicationCode != null">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null">tenant_code = #{tenantCode},</if>
+            <if test="subjectName != null">subject_name = #{subjectName},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="correctCount != null">correct_count = #{correctCount},</if>
+            <if test="incorrectCount != null">incorrect_count = #{incorrectCount},</if>
+            <if test="wordId != null">word_id = #{wordId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExaminationSubjectById" parameterType="Long">
+        delete from exam_examination_subject where id = #{id}
+    </delete>
+
+    <delete id="deleteExaminationSubjectByIds" parameterType="String">
+        delete from exam_examination_subject where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <!-- 根据上一题ID查询下一题 -->
+    <select id="getByPreviousId" resultMap="ExaminationSubjectResult">
+        <include refid="selectExaminationSubjectVo"/>
+        WHERE subject_id > #{subjectId} AND examination_id = #{examinationId} ORDER BY subject_id ASC LIMIT 1
+    </select>
+
+    <!-- 根据当前题目ID查询上一题 -->
+    <select id="getPreviousByCurrentId" resultMap="ExaminationSubjectResult">
+        <include refid="selectExaminationSubjectVo"/>
+        WHERE subject_id <![CDATA[<]]> #{subjectId} AND examination_id = #{examinationId} ORDER BY subject_id DESC LIMIT 1
+    </select>
+
+    <select id="findByExaminationIdAndSubjectId" resultMap="ExaminationSubjectResult">
+        <include refid="selectExaminationSubjectVo"/>
+         WHERE examination_id = #{examinationId} and subject_id = #{subjectId}
+    </select>
+
+    <!-- 物理删除 -->
+    <delete id="delete">
+        DELETE FROM exam_examination_subject WHERE id = #{id}
+    </delete>
+
+    <!-- 物理删除 -->
+    <delete id="deleteBySubjectId">
+        DELETE FROM exam_examination_subject WHERE subject_id = #{subjectId}
+    </delete>
+
+    <!-- 物理删除 -->
+    <delete id="deleteAll">
+        DELETE FROM exam_examination_subject WHERE id in
+        <foreach item="item" index="index" collection="ids" open="("
+                 separator="," close=")">#{item}
+        </foreach>
+    </delete>
+
+    <select id="findSubjectCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM exam_examination_subject
+        <where>
+            <if test="subjectName != null  and subjectName != ''"> and subject_name like concat('%', #{subjectName}, '%')</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="categoryId != null  and categoryId != ''"> and category_id = #{categoryId}</if>
+            <if test="examinationId != null  and examinationId != ''"> and examination_id = #{examinationId}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+            <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+            and del_flag = 0
+        </where>
+    </select>
+
+
+    <update id="updateAnswerResult" parameterType="com.wyg.exam.domain.vo.SubjectVO">
+        update exam_examination_subject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="correctCount != null">correct_count = correct_count+#{correctCount},</if>
+            <if test="incorrectCount != null">incorrect_count = incorrect_count+#{incorrectCount},</if>
+        </trim>
+        where subject_id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.SubjectChoicesMapper">
+
+    <resultMap type="com.wyg.exam.domain.SubjectChoices" id="SubjectChoicesResult">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="subjectName" column="subject_name"/>
+        <result property="choicesType" column="choices_type"/>
+        <result property="answer" column="answer"/>
+        <result property="score" column="score"/>
+        <result property="analysis" column="analysis"/>
+        <result property="level" column="level"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifier" column="modifier"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="applicationCode" column="application_code"/>
+        <result property="tenantCode" column="tenant_code"/>
+        <result property="examinationId" column="examination_id"/>
+        <result property="correctCount"    column="correct_count"    />
+        <result property="incorrectCount"    column="incorrect_count"    />
+    </resultMap>
+
+    <sql id="selectSubjectChoicesVo">
+        select c.id, c.category_id, c.subject_name, c.choices_type, c.answer, c.score, c.analysis, c.level, c.creator, c.create_date, c.modifier,
+        c.modify_date, c.del_flag, c.application_code, c.tenant_code,s.examination_id,c.correct_count,c.incorrect_count
+        from exam_subject_choices c
+        left join exam_examination_subject s on c.id=s.subject_id
+    </sql>
+
+    <select id="selectSubjectChoicesList" parameterType="com.wyg.exam.domain.SubjectChoices"  resultMap="SubjectChoicesResult">
+        <include refid="selectSubjectChoicesVo"/>
+        <where>
+            <if test="categoryId != null ">and c.category_id = #{categoryId}</if>
+            <if test="subjectName != null  and subjectName != ''">and c.subject_name like concat('%', #{subjectName},'%')</if>
+            <if test="choicesType != null ">and c.choices_type = #{choicesType}</if>
+            <if test="answer != null  and answer != ''">and c.answer = #{answer}</if>
+            <if test="score != null ">and c.score = #{score}</if>
+            <if test="analysis != null  and analysis != ''">and c.analysis = #{analysis}</if>
+            <if test="level != null ">and c.level = #{level}</if>
+            <if test="creator != null  and creator != ''">and c.creator = #{creator}</if>
+            <if test="createDate != null ">and c.create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''">and c.modifier = #{modifier}</if>
+            <if test="modifyDate != null ">and c.modify_date = #{modifyDate}</if>
+            <if test="applicationCode != null  and applicationCode != ''">and c.application_code = #{applicationCode}</if>
+            <if test="tenantCode != null  and tenantCode != ''">and c.tenant_code = #{tenantCode}</if>
+
+            <if test="params != null and params.getNullExaminationId != null and params.getNullExaminationId != ''">
+                and s.examination_id is null
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectSubjectChoicesById" parameterType="Long" resultMap="SubjectChoicesResult">
+        <include refid="selectSubjectChoicesVo"/>
+        where c.id = #{id}
+    </select>
+
+    <insert id="insertSubjectChoices" parameterType="com.wyg.exam.domain.SubjectChoices">
+        insert into exam_subject_choices
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="subjectName != null and subjectName != ''">subject_name,</if>
+            <if test="choicesType != null">choices_type,</if>
+            <if test="answer != null and answer != ''">answer,</if>
+            <if test="score != null">score,</if>
+            <if test="analysis != null">analysis,</if>
+            <if test="level != null">level,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="modifier != null and modifier != ''">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code,</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code,</if>
+            <if test="examinationId != null and examinationId != ''">examination_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="subjectName != null and subjectName != ''">#{subjectName},</if>
+            <if test="choicesType != null">#{choicesType},</if>
+            <if test="answer != null and answer != ''">#{answer},</if>
+            <if test="score != null">#{score},</if>
+            <if test="analysis != null">#{analysis},</if>
+            <if test="level != null">#{level},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="modifier != null and modifier != ''">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="applicationCode != null and applicationCode != ''">#{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">#{tenantCode},</if>
+            <if test="examinationId != null and examinationId != ''">#{examinationId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSubjectChoices" parameterType="com.wyg.exam.domain.SubjectChoices">
+        update exam_subject_choices
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="subjectName != null and subjectName != ''">subject_name = #{subjectName},</if>
+            <if test="choicesType != null">choices_type = #{choicesType},</if>
+            <if test="answer != null and answer != ''">answer = #{answer},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="analysis != null">analysis = #{analysis},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifier != null and modifier != ''">modifier = #{modifier},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code = #{tenantCode},</if>
+            <if test="correctCount != null">correct_count = #{correctCount},</if>
+            <if test="incorrectCount != null">incorrect_count = #{incorrectCount},</if>
+            <if test="examinationId != null">examination_id = #{examinationId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSubjectChoicesById" parameterType="Long">
+--         delete from exam_subject_choices where id = #{id}
+        UPDATE exam_subject_choices SET del_flag = 1 WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteSubjectChoicesByIds" parameterType="String">
+        -- delete from exam_subject_choices where id in
+        UPDATE exam_subject_choices SET del_flag = 1 WHERE id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 物理删除 -->
+    <delete id="physicalDelete">
+        DELETE FROM exam_subject_choices WHERE id = #{id}
+    </delete>
+
+    <!-- 物理删除 -->
+    <delete id="physicalDeleteAll">
+        DELETE FROM exam_subject_choices WHERE id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">#{item}
+        </foreach>
+    </delete>
+
+    <select id="findListByIds" resultMap="SubjectChoicesResult">
+        <include refid="selectSubjectChoicesVo"/>
+        WHERE c.id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY c.id ASC
+    </select>
+
+    <update id="updateAnswerResult" parameterType="com.wyg.exam.domain.vo.SubjectVO">
+        update exam_subject_choices
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="correctCount != null">correct_count = correct_count+#{correctCount},</if>
+            <if test="incorrectCount != null">incorrect_count = incorrect_count+#{incorrectCount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>

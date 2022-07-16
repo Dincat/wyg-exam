@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.ExamExaminationRankMapper">
+
+    <resultMap type="com.wyg.exam.domain.ExamExaminationRank" id="ExamExaminationRankResult">
+        <result property="id" column="id"/>
+        <result property="paperId" column="paper_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="score" column="score"/>
+        <result property="correctNumber" column="correct_number"/>
+        <result property="incorrectNumber" column="incorrect_number"/>
+        <result property="rank" column="rank"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="elapsedTime" column="elapsed_time"/>
+    </resultMap>
+
+    <sql id="selectExamExaminationRankVo">
+        select id, paper_id, user_id, user_name, score, correct_number, incorrect_number, rank, create_time, update_time,elapsed_time from exam_examination_rank
+    </sql>
+
+    <select id="selectExamExaminationRankList" parameterType="com.wyg.exam.domain.ExamExaminationRank"
+            resultMap="ExamExaminationRankResult">
+        <include refid="selectExamExaminationRankVo"/>
+        <where>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="paperId != null ">and paper_id = #{paperId}</if>
+            <if test="userName != null  and userName != ''">and user_name like concat('%', #{userName}, '%')</if>
+            <if test="correctNumber != null ">and correct_number = #{correctNumber}</if>
+            <if test="incorrectNumber != null ">and incorrect_number = #{incorrectNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectExamExaminationRankById" parameterType="Long" resultMap="ExamExaminationRankResult">
+        <include refid="selectExamExaminationRankVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertExamExaminationRank" parameterType="com.wyg.exam.domain.ExamExaminationRank">
+        insert into exam_examination_rank
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="paperId != null">paper_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="score != null">score,</if>
+            <if test="correctNumber != null">correct_number,</if>
+            <if test="incorrectNumber != null">incorrect_number,</if>
+            <if test="rank != null">rank,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="elapsedTime != null">elapsed_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="paperId != null">#{paperId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="score != null">#{score},</if>
+            <if test="correctNumber != null">#{correctNumber},</if>
+            <if test="incorrectNumber != null">#{incorrectNumber},</if>
+            <if test="rank != null">#{rank},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="elapsedTime != null">#{elapsedTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateExamExaminationRank" parameterType="com.wyg.exam.domain.ExamExaminationRank">
+        update exam_examination_rank
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paperId != null">paper_id = #{paperId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="correctNumber != null">correct_number = #{correctNumber},</if>
+            <if test="incorrectNumber != null">incorrect_number = #{incorrectNumber},</if>
+            <if test="rank != null">rank = #{rank},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="elapsedTime != null">elapsed_time = #{elapsedTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamExaminationRankById" parameterType="Long">
+        delete from exam_examination_rank where id = #{id}
+    </delete>
+
+    <delete id="deleteExamExaminationRankByIds" parameterType="String">
+        delete from exam_examination_rank where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectRankList" parameterType="com.wyg.exam.domain.ExamExaminationRank"
+            resultMap="ExamExaminationRankResult">
+       SELECT id, paper_id, user_id, user_name, score, correct_number, incorrect_number,  create_time, update_time,elapsed_time,
+CASE
+WHEN @prevRank = score THEN @curRank+0
+WHEN @prevRank := score THEN @curRank := @curRank + 1
+else @curRank := @curRank + 1
+END AS rank
+FROM exam_examination_rank p,
+(SELECT @curRank :=0, @prevRank := NULL) r
+where p.paper_id=#{paperId}
+ORDER BY score desc,update_time asc
+limit 0,99
+    </select>
+
+</mapper>

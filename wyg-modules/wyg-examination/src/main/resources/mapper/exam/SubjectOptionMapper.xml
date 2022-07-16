@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.SubjectOptionMapper">
+
+    <resultMap type="com.wyg.exam.domain.SubjectOption" id="SubjectOptionResult">
+            <result property="id"    column="id"    />
+            <result property="subjectChoicesId"    column="subject_choices_id"    />
+            <result property="optionName"    column="option_name"    />
+            <result property="optionContent"    column="option_content"    />
+            <result property="creator"    column="creator"    />
+            <result property="createDate"    column="create_date"    />
+            <result property="modifier"    column="modifier"    />
+            <result property="modifyDate"    column="modify_date"    />
+            <result property="delFlag"    column="del_flag"    />
+            <result property="applicationCode"    column="application_code"    />
+            <result property="tenantCode"    column="tenant_code"    />
+            <result property="wordId"    column="word_id"    />
+    </resultMap>
+
+    <sql id="selectSubjectOptionVo">
+        select id, subject_choices_id, option_name, option_content, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code,word_id from exam_subject_option
+    </sql>
+
+    <select id="selectSubjectOptionList" parameterType="com.wyg.exam.domain.SubjectOption" resultMap="SubjectOptionResult">
+        <include refid="selectSubjectOptionVo"/>
+        <where>
+                        <if test="subjectChoicesId != null "> and subject_choices_id = #{subjectChoicesId}</if>
+                        <if test="optionName != null  and optionName != ''"> and option_name like concat('%', #{optionName}, '%')</if>
+                        <if test="optionContent != null  and optionContent != ''"> and option_content = #{optionContent}</if>
+                        <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+                        <if test="createDate != null "> and create_date = #{createDate}</if>
+                        <if test="modifier != null  and modifier != ''"> and modifier = #{modifier}</if>
+                        <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+                        <if test="applicationCode != null  and applicationCode != ''"> and application_code = #{applicationCode}</if>
+                        <if test="tenantCode != null  and tenantCode != ''"> and tenant_code = #{tenantCode}</if>
+
+            <if test="params != null and params.ChoiseIdList != null">
+                and subject_choices_id in
+                <foreach item="id" collection="params.ChoiseIdList" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSubjectOptionById" parameterType="Long" resultMap="SubjectOptionResult">
+            <include refid="selectSubjectOptionVo"/>
+            where id = #{id}
+    </select>
+
+    <insert id="insertSubjectOption" parameterType="com.wyg.exam.domain.SubjectOption">
+        insert into exam_subject_option
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="id != null">id,</if>
+                    <if test="subjectChoicesId != null">subject_choices_id,</if>
+                    <if test="optionName != null and optionName != ''">option_name,</if>
+                    <if test="optionContent != null and optionContent != ''">option_content,</if>
+                    <if test="creator != null and creator != ''">creator,</if>
+                    <if test="createDate != null">create_date,</if>
+                    <if test="modifier != null and modifier != ''">modifier,</if>
+                    <if test="modifyDate != null">modify_date,</if>
+                    <if test="delFlag != null">del_flag,</if>
+                    <if test="applicationCode != null and applicationCode != ''">application_code,</if>
+                    <if test="tenantCode != null and tenantCode != ''">tenant_code,</if>
+                    <if test="wordId != null">word_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="id != null">#{id},</if>
+                    <if test="subjectChoicesId != null">#{subjectChoicesId},</if>
+                    <if test="optionName != null and optionName != ''">#{optionName},</if>
+                    <if test="optionContent != null and optionContent != ''">#{optionContent},</if>
+                    <if test="creator != null and creator != ''">#{creator},</if>
+                    <if test="createDate != null">#{createDate},</if>
+                    <if test="modifier != null and modifier != ''">#{modifier},</if>
+                    <if test="modifyDate != null">#{modifyDate},</if>
+                    <if test="delFlag != null">#{delFlag},</if>
+                    <if test="applicationCode != null and applicationCode != ''">#{applicationCode},</if>
+                    <if test="tenantCode != null and tenantCode != ''">#{tenantCode},</if>
+                    <if test="wordId != null">#{wordId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSubjectOption" parameterType="com.wyg.exam.domain.SubjectOption">
+        update exam_subject_option
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="subjectChoicesId != null">subject_choices_id = #{subjectChoicesId},</if>
+                    <if test="optionName != null and optionName != ''">option_name = #{optionName},</if>
+                    <if test="optionContent != null and optionContent != ''">option_content = #{optionContent},</if>
+                    <if test="creator != null and creator != ''">creator = #{creator},</if>
+                    <if test="createDate != null">create_date = #{createDate},</if>
+                    <if test="modifier != null and modifier != ''">modifier = #{modifier},</if>
+                    <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+                    <if test="delFlag != null">del_flag = #{delFlag},</if>
+                    <if test="applicationCode != null and applicationCode != ''">application_code = #{applicationCode},</if>
+                    <if test="tenantCode != null and tenantCode != ''">tenant_code = #{tenantCode},</if>
+                    <if test="wordId != null">word_id = #{wordId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSubjectOptionById" parameterType="Long">
+        delete from exam_subject_option where id = #{id}
+    </delete>
+
+    <delete id="deleteSubjectOptionByIds" parameterType="String">
+        delete from exam_subject_option where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <!-- 物理删除 -->
+    <delete id="deleteBySubjectChoicesId">
+        DELETE FROM exam_subject_option WHERE subject_choices_id = #{subjectChoicesId}
+    </delete>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch">
+        insert into exam_subject_option (
+        id,
+        subject_choices_id,
+        option_name,
+        option_content,
+        creator,
+        create_date,
+        modifier,
+        modify_date,
+        del_flag,
+        application_code,
+        tenant_code,
+        word_id
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.subjectChoicesId},
+            #{item.optionName},
+            #{item.optionContent},
+            #{item.creator},
+            #{item.createDate, jdbcType=TIMESTAMP, javaType=java.util.Date},
+            #{item.modifier},
+            #{item.modifyDate, jdbcType=TIMESTAMP, javaType=java.util.Date},
+            #{item.delFlag},
+            #{item.applicationCode},
+            #{item.tenantCode},
+            #{item.wordId}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

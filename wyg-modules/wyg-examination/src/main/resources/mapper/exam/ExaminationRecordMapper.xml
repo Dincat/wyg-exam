@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.ExaminationRecordMapper">
+
+    <resultMap type="com.wyg.exam.domain.ExaminationRecord" id="ExaminationRecordResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="examinationId"    column="examination_id"    />
+        <result property="examinationName"    column="examination_name"    />
+        <result property="examType"    column="exam_type"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="score"    column="score"    />
+        <result property="correctNumber"    column="correct_number"    />
+        <result property="incorrectNumber"    column="incorrect_number"    />
+        <result property="submitStatus"    column="submit_status"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+
+    <sql id="selectExaminationRecordVo">
+        select id, user_id, user_name, examination_id, examination_name, exam_type,start_time, end_time, score, correct_number, incorrect_number, submit_status, creator, create_date, dept_name, modifier, modify_date, del_flag, application_code, tenant_code from exam_examination_record
+    </sql>
+
+    <!-- where 条件 -->
+    <sql id="whereColumnList">
+        <where>
+            <if test="examinationName != null  and examinationName != ''">and examination_name like concat('%',#{examinationName}, '%')</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="examinationId != null ">and examination_id = #{examinationId}</if>
+            <if test="examType != null ">and exam_type = #{examType}</if>
+            <if test="startTime != null ">and start_time = #{startTime}</if>
+            <if test="endTime != null ">and end_time = #{endTime}</if>
+            <if test="score != null ">and score = #{score}</if>
+            <if test="correctNumber != null ">and correct_number = #{correctNumber}</if>
+            <if test="incorrectNumber != null ">and incorrect_number = #{incorrectNumber}</if>
+            <if test="submitStatus != null ">and submit_status = #{submitStatus}</if>
+            <if test="creator != null  and creator != ''">and creator = #{creator}</if>
+            <if test="createDate != null ">and create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''">and modifier = #{modifier}</if>
+            <if test="modifyDate != null ">and modify_date = #{modifyDate}</if>
+            <if test="applicationCode != null  and applicationCode != ''">and application_code = #{applicationCode}</if>
+            <if test="tenantCode != null  and tenantCode != ''">and tenant_code = #{tenantCode}</if>
+            and del_flag = 0
+        </where>
+    </sql>
+
+    <select id="selectExaminationRecordList" parameterType="com.wyg.exam.domain.ExaminationRecord"
+            resultMap="ExaminationRecordResult">
+        <include refid="selectExaminationRecordVo"/>
+        <include refid="whereColumnList"/>
+    </select>
+
+    <select id="selectExaminationRecordById" parameterType="Long" resultMap="ExaminationRecordResult">
+        <include refid="selectExaminationRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertExaminationRecord" parameterType="com.wyg.exam.domain.ExaminationRecord">
+        insert into exam_examination_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="examinationId != null">examination_id,</if>
+            <if test="examinationName != null">examination_name,</if>
+            <if test="examType != null">exam_type,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="score != null">score,</if>
+            <if test="correctNumber != null">correct_number,</if>
+            <if test="incorrectNumber != null">incorrect_number,</if>
+            <if test="submitStatus != null">submit_status,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code,</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="examinationId != null">#{examinationId},</if>
+            <if test="examinationName != null">#{examinationName},</if>
+            <if test="examType != null">#{examType},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="score != null">#{score},</if>
+            <if test="correctNumber != null">#{correctNumber},</if>
+            <if test="incorrectNumber != null">#{incorrectNumber},</if>
+            <if test="submitStatus != null">#{submitStatus},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="applicationCode != null and applicationCode != ''">#{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">#{tenantCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateExaminationRecord" parameterType="com.wyg.exam.domain.ExaminationRecord">
+        update exam_examination_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="examinationId != null">examination_id = #{examinationId},</if>
+            <if test="examinationName != null">examination_name = #{examinationName},</if>
+            <if test="examType != null">exam_type = #{examType},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="correctNumber != null">correct_number = #{correctNumber},</if>
+            <if test="incorrectNumber != null">incorrect_number = #{incorrectNumber},</if>
+            <if test="submitStatus != null">submit_status = #{submitStatus},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExaminationRecordById" parameterType="Long">
+--         delete from exam_examination_record where id = #{id}
+ UPDATE exam_examination_record SET del_flag = 1 WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteExaminationRecordByIds" parameterType="String">
+--         delete from exam_examination_record where id in
+        UPDATE exam_examination_record SET del_flag = 1 WHERE id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="findExaminationRecordCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM exam_examination_record
+        <include refid="whereColumnList"/>
+    </select>
+
+    <select id="findExaminationRecordCountByDate" resultMap="ExaminationRecordResult">
+        <include refid="selectExaminationRecordVo"/>
+        WHERE del_flag = 0
+        AND <![CDATA[ DATE_FORMAT(create_date, '%Y-%m-%d') >=  DATE_FORMAT(#{start}, '%Y-%m-%d') ]]>
+    </select>
+
+
+</mapper>

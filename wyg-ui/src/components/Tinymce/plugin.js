@@ -1,0 +1,2 @@
+const plugins = ["advlist anchor autolink fontsizeselect fontselect autosave code codesample colorpicker colorpicker contextmenu directionality emoticons fullscreen hr image imagetools importcss insertdatetime indent2em link lists nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern visualblocks visualchars wordcount powerpaste"];
+export default plugins;

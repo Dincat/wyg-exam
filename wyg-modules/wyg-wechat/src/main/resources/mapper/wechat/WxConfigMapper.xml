@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.wechat.mapper.WxConfigMapper">
+
+    <resultMap type="WxConfig" id="WxConfigResult">
+            <result property="id"    column="id"    />
+            <result property="wxName"    column="wx_name"    />
+            <result property="wxCode"    column="wx_code"    />
+            <result property="appId"    column="app_id"    />
+            <result property="appSecret"    column="app_secret"    />
+            <result property="token"    column="token"    />
+            <result property="grantType"    column="grant_type"    />
+            <result property="mchId"    column="mch_id"    />
+            <result property="payKey"    column="pay_key"    />
+            <result property="aesKey"    column="aes_key"    />
+            <result property="certPath"    column="cert_path"    />
+            <result property="isDefault"    column="is_default"    />
+            <result property="remark"    column="remark"    />
+            <result property="userId"    column="user_id"    />
+            <result property="createBy"    column="create_by"    />
+            <result property="createTime"    column="create_time"    />
+            <result property="updateBy"    column="update_by"    />
+            <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWxConfigVo">
+        select id, wx_name, wx_code, app_id, app_secret, token, grant_type, mch_id, pay_key, aes_key, cert_path, is_default, remark, user_id, create_by, create_time, update_by, update_time from wx_config
+    </sql>
+
+    <select id="selectWxConfigList" parameterType="WxConfig" resultMap="WxConfigResult">
+        <include refid="selectWxConfigVo"/>
+        <where>
+                        <if test="wxName != null  and wxName != ''"> and wx_name like concat('%', #{wxName}, '%')</if>
+                        <if test="wxCode != null  and wxCode != ''"> and wx_code = #{wxCode}</if>
+                        <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+                        <if test="appSecret != null  and appSecret != ''"> and app_secret = #{appSecret}</if>
+                        <if test="token != null  and token != ''"> and token = #{token}</if>
+                        <if test="grantType != null  and grantType != ''"> and grant_type = #{grantType}</if>
+                        <if test="mchId != null  and mchId != ''"> and mch_id = #{mchId}</if>
+                        <if test="payKey != null  and payKey != ''"> and pay_key = #{payKey}</if>
+                        <if test="aesKey != null  and aesKey != ''"> and aes_key = #{aesKey}</if>
+                        <if test="certPath != null  and certPath != ''"> and cert_path = #{certPath}</if>
+                        <if test="isDefault != null  and isDefault != ''"> and is_default = #{isDefault}</if>
+                        <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="selectWxConfigById" parameterType="Long" resultMap="WxConfigResult">
+            <include refid="selectWxConfigVo"/>
+            where id = #{id}
+    </select>
+
+    <select id="selectWxConfigByCode" parameterType="String" resultMap="WxConfigResult">
+        <include refid="selectWxConfigVo"/>
+        where wx_code = #{wxCode}
+    </select>
+
+    <select id="selectDefaultWxConfig" parameterType="String" resultMap="WxConfigResult">
+        <include refid="selectWxConfigVo"/>
+        where is_default = 'Y'
+    </select>
+
+    <insert id="insertWxConfig" parameterType="WxConfig">
+        insert into wx_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="id != null">id,</if>
+                    <if test="wxName != null and wxName != ''">wx_name,</if>
+                    <if test="wxCode != null and wxCode != ''">wx_code,</if>
+                    <if test="appId != null and appId != ''">app_id,</if>
+                    <if test="appSecret != null">app_secret,</if>
+                    <if test="token != null">token,</if>
+                    <if test="grantType != null">grant_type,</if>
+                    <if test="mchId != null">mch_id,</if>
+                    <if test="payKey != null">pay_key,</if>
+                    <if test="aesKey != null">aes_key,</if>
+                    <if test="certPath != null">cert_path,</if>
+                    <if test="isDefault != null">is_default,</if>
+                    <if test="remark != null">remark,</if>
+                    <if test="userId != null">user_id,</if>
+                    <if test="createBy != null">create_by,</if>
+                    <if test="createTime != null">create_time,</if>
+                    <if test="updateBy != null">update_by,</if>
+                    <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="id != null">#{id},</if>
+                    <if test="wxName != null and wxName != ''">#{wxName},</if>
+                    <if test="wxCode != null and wxCode != ''">#{wxCode},</if>
+                    <if test="appId != null and appId != ''">#{appId},</if>
+                    <if test="appSecret != null">#{appSecret},</if>
+                    <if test="token != null">#{token},</if>
+                    <if test="grantType != null">#{grantType},</if>
+                    <if test="mchId != null">#{mchId},</if>
+                    <if test="payKey != null">#{payKey},</if>
+                    <if test="aesKey != null">#{aesKey},</if>
+                    <if test="certPath != null">#{certPath},</if>
+                    <if test="isDefault != null">#{isDefault},</if>
+                    <if test="remark != null">#{remark},</if>
+                    <if test="userId != null">#{userId},</if>
+                    <if test="createBy != null">#{createBy},</if>
+                    <if test="createTime != null">#{createTime},</if>
+                    <if test="updateBy != null">#{updateBy},</if>
+                    <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxConfig" parameterType="WxConfig">
+        update wx_config
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wxName != null and wxName != ''">wx_name = #{wxName},</if>
+                    <if test="wxCode != null and wxCode != ''">wx_code = #{wxCode},</if>
+                    <if test="appId != null and appId != ''">app_id = #{appId},</if>
+                    <if test="appSecret != null">app_secret = #{appSecret},</if>
+                    <if test="token != null">token = #{token},</if>
+                    <if test="grantType != null">grant_type = #{grantType},</if>
+                    <if test="mchId != null">mch_id = #{mchId},</if>
+                    <if test="payKey != null">pay_key = #{payKey},</if>
+                    <if test="aesKey != null">aes_key = #{aesKey},</if>
+                    <if test="certPath != null">cert_path = #{certPath},</if>
+                    <if test="isDefault != null">is_default = #{isDefault},</if>
+                    <if test="remark != null">remark = #{remark},</if>
+                    <if test="userId != null">user_id = #{userId},</if>
+                    <if test="createBy != null">create_by = #{createBy},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateBy != null">update_by = #{updateBy},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWxConfigById" parameterType="Long">
+        delete from wx_config where id = #{id}
+    </delete>
+
+    <delete id="deleteWxConfigByIds" parameterType="String">
+        delete from wx_config where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

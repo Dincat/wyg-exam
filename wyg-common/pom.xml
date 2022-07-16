@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.wyg</groupId>
+        <artifactId>wyg-exam</artifactId>
+        <version>3.5.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>wyg-common-log</module>
+        <module>wyg-common-core</module>
+        <module>wyg-common-redis</module>
+        <module>wyg-common-swagger</module>
+        <module>wyg-common-security</module>
+        <module>wyg-common-datascope</module>
+		<module>wyg-common-datasource</module>
+    </modules>
+
+    <artifactId>wyg-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+	    wyg-common通用模块
+    </description>
+
+</project>

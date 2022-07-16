@@ -1,0 +1,15 @@
+# 基础镜像
+FROM  openjdk:8-jre
+# author
+MAINTAINER wyg
+
+# 挂载目录
+VOLUME /home/wyg
+# 创建目录
+RUN mkdir -p /home/wyg
+# 指定路径
+WORKDIR /home/wyg
+# 复制jar文件到路径
+COPY ./jar/wyg-modules-job.jar /home/wyg/wyg-modules-job.jar
+# 启动定时任务服务
+ENTRYPOINT ["java","-jar","wyg-modules-job.jar"]

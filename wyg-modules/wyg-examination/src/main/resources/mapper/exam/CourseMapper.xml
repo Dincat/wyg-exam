@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.CourseMapper">
+
+    <resultMap type="com.wyg.exam.domain.Course" id="CourseResult">
+        <result property="id"    column="id"    />
+        <result property="courseName"    column="course_name"    />
+        <result property="college"    column="college"    />
+        <result property="major"    column="major"    />
+        <result property="teacher"    column="teacher"    />
+        <result property="courseDescription"    column="course_description"    />
+        <result property="cover"    column="cover"    />
+        <result property="sequence"    column="sequence"    />
+        <result property="hits"    column="hits"    />
+        <result property="rating"    column="rating"    />
+        <result property="buyCount"    column="buy_count"    />
+        <result property="period"    column="period"    />
+        <result property="showIndex"    column="show_index"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="plan"    column="plan"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+
+    <sql id="selectCourseVo">
+        select id, course_name, college, major, teacher, course_description, cover, sequence, hits, rating, buy_count, period, show_index, is_show, introduce, plan, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code from exam_course
+    </sql>
+
+    <select id="selectCourseList" parameterType="com.wyg.exam.domain.Course" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        <where>
+            <if test="courseName != null  and courseName != ''">and course_name like concat('%', #{courseName}, '%')
+            </if>
+            <if test="college != null  and college != ''">and college = #{college}</if>
+            <if test="major != null  and major != ''">and major = #{major}</if>
+            <if test="teacher != null  and teacher != ''">and teacher = #{teacher}</if>
+            <if test="courseDescription != null  and courseDescription != ''">and course_description =#{courseDescription}</if>
+            <if test="cover != null  and cover != ''">and cover = #{cover}</if>
+            <if test="creator != null  and creator != ''">and creator = #{creator}</if>
+            <if test="createDate != null ">and create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''">and modifier = #{modifier}</if>
+            <if test="modifyDate != null ">and modify_date = #{modifyDate}</if>
+            <if test="applicationCode != null  and applicationCode != ''">and application_code = #{applicationCode}</if>
+            <if test="tenantCode != null  and tenantCode != ''">and tenant_code = #{tenantCode}</if>
+            <if test="showIndex != null  and showIndex != ''"> and show_index = #{showIndex}</if>
+            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+
+            and del_flag = 0
+
+        </where>
+    </select>
+
+    <select id="selectCourseById" parameterType="Long" resultMap="CourseResult">
+        <include refid="selectCourseVo"/>
+        where id = #{id} and del_flag = 0
+    </select>
+
+    <insert id="insertCourse" parameterType="com.wyg.exam.domain.Course">
+        insert into exam_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="courseName != null and courseName != ''">course_name,</if>
+            <if test="college != null">college,</if>
+            <if test="major != null">major,</if>
+            <if test="teacher != null">teacher,</if>
+            <if test="courseDescription != null">course_description,</if>
+            <if test="cover != null">cover,</if>
+            <if test="sequence != null">sequence,</if>
+            <if test="hits != null">hits,</if>
+            <if test="rating != null">rating,</if>
+            <if test="buyCount != null">buy_count,</if>
+            <if test="period != null">period,</if>
+            <if test="showIndex != null">show_index,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="introduce != null">introduce,</if>
+            <if test="plan != null">plan,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="modifier != null">modifier,</if>
+            <if test="modifyDate != null">modify_date,</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code,</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="courseName != null and courseName != ''">#{courseName},</if>
+            <if test="college != null">#{college},</if>
+            <if test="major != null">#{major},</if>
+            <if test="teacher != null">#{teacher},</if>
+            <if test="courseDescription != null">#{courseDescription},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="sequence != null">#{sequence},</if>
+            <if test="hits != null">#{hits},</if>
+            <if test="rating != null">#{rating},</if>
+            <if test="buyCount != null">#{buyCount},</if>
+            <if test="period != null">#{period},</if>
+            <if test="showIndex != null">#{showIndex},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="introduce != null">#{introduce},</if>
+            <if test="plan != null">#{plan},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="modifier != null">#{modifier},</if>
+            <if test="modifyDate != null">#{modifyDate},</if>
+            <if test="applicationCode != null and applicationCode != ''">#{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">#{tenantCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCourse" parameterType="com.wyg.exam.domain.Course">
+        update exam_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+            <if test="college != null">college = #{college},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="teacher != null">teacher = #{teacher},</if>
+            <if test="courseDescription != null">course_description = #{courseDescription},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="sequence != null">sequence = #{sequence},</if>
+            <if test="hits != null">hits = #{hits},</if>
+            <if test="rating != null">rating = #{rating},</if>
+            <if test="buyCount != null">buy_count = #{buyCount},</if>
+            <if test="period != null">period = #{period},</if>
+            <if test="showIndex != null">show_index = #{showIndex},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="introduce != null">introduce = #{introduce},</if>
+            <if test="plan != null">plan = #{plan},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifier != null">modifier = #{modifier},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+            <if test="applicationCode != null and applicationCode != ''">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null and tenantCode != ''">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseById" parameterType="Long">
+--         delete from exam_course where id = #{id}
+  UPDATE exam_course SET
+			del_flag = 1
+		WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteCourseByIds" parameterType="String">
+        -- delete from exam_course where id in
+        UPDATE exam_course SET
+        del_flag = 1
+        WHERE id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="findCourseCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM exam_course
+        <where>
+            <if test="courseName != null  and courseName != ''">and course_name like concat('%', #{courseName}, '%')
+            </if>
+            <if test="college != null  and college != ''">and college = #{college}</if>
+            <if test="major != null  and major != ''">and major = #{major}</if>
+            <if test="teacher != null  and teacher != ''">and teacher = #{teacher}</if>
+            <if test="courseDescription != null  and courseDescription != ''">and course_description =#{courseDescription}</if>
+            <if test="cover != null  and cover != ''">and cover = #{cover}</if>
+            <if test="creator != null  and creator != ''">and creator = #{creator}</if>
+            <if test="createDate != null ">and create_date = #{createDate}</if>
+            <if test="modifier != null  and modifier != ''">and modifier = #{modifier}</if>
+            <if test="modifyDate != null ">and modify_date = #{modifyDate}</if>
+            <if test="applicationCode != null  and applicationCode != ''">and application_code = #{applicationCode}</if>
+            <if test="tenantCode != null  and tenantCode != ''">and tenant_code = #{tenantCode}</if>
+            <if test="showIndex != null  and showIndex != ''"> and show_index = #{showIndex}</if>
+            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+            and del_flag = 0
+
+        </where>
+    </select>
+
+
+</mapper>

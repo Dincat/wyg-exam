@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.exam.mapper.AnswerMapper">
+
+    <resultMap type="com.wyg.exam.domain.Answer" id="AnswerResult">
+            <result property="id"    column="id"    />
+            <result property="examRecordId"    column="exam_record_id"    />
+            <result property="subjectId"    column="subject_id"    />
+            <result property="type"    column="type"    />
+            <result property="answer"    column="answer"    />
+            <result property="answerType"    column="answer_type"    />
+            <result property="score"    column="score"    />
+            <result property="markStatus"    column="mark_status"    />
+            <result property="startTime"    column="start_time"    />
+            <result property="endTime"    column="end_time"    />
+            <result property="creator"    column="creator"    />
+            <result property="createDate"    column="create_date"    />
+            <result property="modifier"    column="modifier"    />
+            <result property="modifyDate"    column="modify_date"    />
+            <result property="delFlag"    column="del_flag"    />
+            <result property="applicationCode"    column="application_code"    />
+            <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+
+    <sql id="selectAnswerVo">
+        select id, exam_record_id, subject_id, type, answer, answer_type, score, mark_status, start_time, end_time, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code from exam_answer
+    </sql>
+
+    <select id="selectAnswerList" parameterType="com.wyg.exam.domain.Answer" resultMap="AnswerResult">
+        <include refid="selectAnswerVo"/>
+        <where>
+            <if test="examRecordId != null  and examRecordId != ''"> and exam_record_id = #{examRecordId}</if>
+            <if test="subjectId != null  and subjectId != ''"> and subject_id = #{subjectId}</if>
+
+            <if test="params != null and params.subjectIdList != null">
+                and subject_id in
+                <foreach item="id" collection="params.subjectIdList" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAnswerById" parameterType="Long" resultMap="AnswerResult">
+            <include refid="selectAnswerVo"/>
+            where id = #{id}
+    </select>
+
+    <insert id="insertAnswer" parameterType="com.wyg.exam.domain.Answer">
+        insert into exam_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="id != null">id,</if>
+                    <if test="examRecordId != null">exam_record_id,</if>
+                    <if test="subjectId != null">subject_id,</if>
+                    <if test="type != null">type,</if>
+                    <if test="answer != null">answer,</if>
+                    <if test="answerType != null">answer_type,</if>
+                    <if test="score != null">score,</if>
+                    <if test="markStatus != null">mark_status,</if>
+                    <if test="startTime != null">start_time,</if>
+                    <if test="endTime != null">end_time,</if>
+                    <if test="creator != null and creator != ''">creator,</if>
+                    <if test="createDate != null">create_date,</if>
+                    <if test="modifier != null">modifier,</if>
+                    <if test="modifyDate != null">modify_date,</if>
+                    <if test="delFlag != null">del_flag,</if>
+                    <if test="applicationCode != null and applicationCode != ''">application_code,</if>
+                    <if test="tenantCode != null and tenantCode != ''">tenant_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="id != null">#{id},</if>
+                    <if test="examRecordId != null">#{examRecordId},</if>
+                    <if test="subjectId != null">#{subjectId},</if>
+                    <if test="type != null">#{type},</if>
+                    <if test="answer != null">#{answer},</if>
+                    <if test="answerType != null">#{answerType},</if>
+                    <if test="score != null">#{score},</if>
+                    <if test="markStatus != null">#{markStatus},</if>
+                    <if test="startTime != null">#{startTime},</if>
+                    <if test="endTime != null">#{endTime},</if>
+                    <if test="creator != null and creator != ''">#{creator},</if>
+                    <if test="createDate != null">#{createDate},</if>
+                    <if test="modifier != null">#{modifier},</if>
+                    <if test="modifyDate != null">#{modifyDate},</if>
+                    <if test="delFlag != null">#{delFlag},</if>
+                    <if test="applicationCode != null and applicationCode != ''">#{applicationCode},</if>
+                    <if test="tenantCode != null and tenantCode != ''">#{tenantCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAnswer" parameterType="com.wyg.exam.domain.Answer">
+        update exam_answer
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="examRecordId != null">exam_record_id = #{examRecordId},</if>
+                    <if test="subjectId != null">subject_id = #{subjectId},</if>
+                    <if test="type != null">type = #{type},</if>
+                    <if test="answer != null">answer = #{answer},</if>
+                    <if test="answerType != null">answer_type = #{answerType},</if>
+                    <if test="score != null">score = #{score},</if>
+                    <if test="markStatus != null">mark_status = #{markStatus},</if>
+                    <if test="startTime != null">start_time = #{startTime},</if>
+                    <if test="endTime != null">end_time = #{endTime},</if>
+                    <if test="creator != null and creator != ''">creator = #{creator},</if>
+                    <if test="createDate != null">create_date = #{createDate},</if>
+                    <if test="modifier != null">modifier = #{modifier},</if>
+                    <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+                    <if test="delFlag != null">del_flag = #{delFlag},</if>
+                    <if test="applicationCode != null and applicationCode != ''">application_code = #{applicationCode},</if>
+                    <if test="tenantCode != null and tenantCode != ''">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAnswerById" parameterType="Long">
+        delete from exam_answer where id = #{id}
+    </delete>
+
+    <delete id="deleteAnswerByIds" parameterType="String">
+        delete from exam_answer where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectLastByRecordId" parameterType="Long" resultMap="AnswerResult">
+        <include refid="selectAnswerVo"/>
+        where exam_record_id = #{recordId} order by id desc limit 1
+    </select>
+
+
+</mapper>

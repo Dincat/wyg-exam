@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wyg.file.api.factory.RemoteFileFallbackFactory

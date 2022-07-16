@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyg.system.mapper.SysConfigGroupMapper">
+
+    <resultMap type="SysConfigGroup" id="SysConfigGroupResult">
+            <result property="id"    column="id"    />
+            <result property="groupName"    column="group_name"    />
+            <result property="groupCode"    column="group_code"    />
+            <result property="orderNum"    column="order_num"    />
+            <result property="remark"    column="remark"    />
+            <result property="createBy"    column="create_by"    />
+            <result property="createTime"    column="create_time"    />
+            <result property="updateBy"    column="update_by"    />
+            <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysConfigGroupVo">
+        select id, group_name, group_code, order_num, remark, create_by, create_time, update_by, update_time from sys_config_group
+    </sql>
+
+    <select id="selectSysConfigGroupList" parameterType="SysConfigGroup" resultMap="SysConfigGroupResult">
+        <include refid="selectSysConfigGroupVo"/>
+        <where>
+                        <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+                        <if test="groupCode != null  and groupCode != ''"> and group_code = #{groupCode}</if>
+        </where>
+    </select>
+
+    <select id="selectSysConfigGroupById" parameterType="Long" resultMap="SysConfigGroupResult">
+            <include refid="selectSysConfigGroupVo"/>
+            where id = #{id}
+    </select>
+
+    <insert id="insertSysConfigGroup" parameterType="SysConfigGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_config_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="groupName != null">group_name,</if>
+                    <if test="groupCode != null">group_code,</if>
+                    <if test="orderNum != null">order_num,</if>
+                    <if test="remark != null">remark,</if>
+                    <if test="createBy != null">create_by,</if>
+                    <if test="createTime != null">create_time,</if>
+                    <if test="updateBy != null">update_by,</if>
+                    <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="groupName != null">#{groupName},</if>
+                    <if test="groupCode != null">#{groupCode},</if>
+                    <if test="orderNum != null">#{orderNum},</if>
+                    <if test="remark != null">#{remark},</if>
+                    <if test="createBy != null">#{createBy},</if>
+                    <if test="createTime != null">#{createTime},</if>
+                    <if test="updateBy != null">#{updateBy},</if>
+                    <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysConfigGroup" parameterType="SysConfigGroup">
+        update sys_config_group
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="groupName != null">group_name = #{groupName},</if>
+                    <if test="groupCode != null">group_code = #{groupCode},</if>
+                    <if test="orderNum != null">order_num = #{orderNum},</if>
+                    <if test="remark != null">remark = #{remark},</if>
+                    <if test="createBy != null">create_by = #{createBy},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateBy != null">update_by = #{updateBy},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysConfigGroupById" parameterType="Long">
+        delete from sys_config_group where id = #{id}
+    </delete>
+
+    <delete id="deleteSysConfigGroupByIds" parameterType="String">
+        delete from sys_config_group where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
